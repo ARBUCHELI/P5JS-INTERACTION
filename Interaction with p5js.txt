@@ -97,6 +97,116 @@ function keyPressed() {
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+* Making Shapes Move with Mouse Position
+----------------------------------------
+8 min
+p5.js makes it easy for us to use the mouse position with the built-in variables mouseX and mouseY. These two variables allow for a variety of mappings to visual elements in a p5.js 
+sketch.
+
+The mouseX and mouseY variables always contain the mouse’s current horizontal and vertical positions, relative to the origin of the canvas. p5.js will continuously check where the mouse 
+is and update mouseX and mouseY to the latest position, making these variables ideal for manipulating elements on the canvas dynamically.
+
+// Draw an ellipse sized 100 pixels by 100 pixels positioned at the current mouse position
+ellipse(mouseX, mouseY, 100, 100);
+
+In the code example above, the mouseX and mouseY variables are used as the x and y coordinates for the center of the ellipse. This means that whenever the mouse position changes, the 
+center position of the ellipse will follow.
+
+To generalize, in situations where numerical values can be used, we can now use the mouseX and mouseY variables!
+
+* Instructions
+--------------
+Checkpoint 1 Passed
+1.
+In sketch.js, begin by moving the background() function call into the setup() function.
+
+
+Hint
+The background() function call is located inside of the draw() function.
+
+background(75);
+
+Move this line of code inside the setup() function.
+
+Checkpoint 2 Passed
+2.
+Inside of the draw() function, create an ellipse with a width and height that are both 75 pixels. Use mouseX for the x coordinate and mouseY for the y coordinate.
+
+When you move your mouse around the canvas, a white ellipse should be duplicating itself continuously.
+
+
+Hint
+Remember that mouseX and mouseY are built-in variables. The syntax for creating an ellipse looks like this:
+
+ellipse(x, y, w, h);
+
+Checkpoint 3 Passed
+3.
+Using the fill() function, add color to the ellipse, which will change depending on mouse position. For the red value input mouseX, for the green input 135, and for the blue value input 
+mouseY.
+
+Now move your mouse around the canvas. The ellipse should be duplicating itself across the canvas with a sort of painterly effect!
+
+
+Hint
+p5.js uses the standard RGB (red, green, blue) color convention, and the fill color can be set like below:
+
+fill(redValue, greenValue, blueValue);
+
+Remember that the fill() function needs to be called before the ellipse or it will not add color to the shape!
+
+sketch.js
+---------
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noStroke();
+
+  // TODO: Move background() in draw() function here
+  background(75);
+}
+
+function draw() {
+  // TODO: Move below background() to setup()
+  ellipse(mouseX, mouseY, 75, 75);
+
+  // TODO: Set fill() using mouseX and mouseY variables
+  fill(mouseX, 135, mouseY);
+  // TODO: Draw an ellipse using mouseX and mouseY for the x and y position
+
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
