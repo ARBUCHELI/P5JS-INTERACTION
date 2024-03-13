@@ -686,6 +686,252 @@ function drawMaze(){
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+* Detecting Key Events
+----------------------
+13 min
+Similar to how we can use mouse input to perform actions in our p5.js sketches, we can also use key events for interaction! These key events are used with general key input or for 
+detecting specific key presses.
+
+The built-in variable keyIsPressed evaluates to true when any key is pressed and false otherwise. Any code written in an if statement with the keyIsPressed conditional will run 
+continuously as long as a key is being pressed. keyIsPressed can be combined with either key or keyCode to check key presses.
+
+keyIsPressed graphic
+
+The keyPressed()function is called once every time a key is pressed. Since the function is only called once per key press the code will also only run once per press. Within the function 
+block, it’s possible to test which key has been pressed and to use this value for any purpose.
+
+Take a look at keyEvents.js on the right. The code highlights the different functionalities of keyIsPressed and keyPressed(). While a key is pressed, the code inside the if statement 
+constantly runs, increasing the size of the shapes drawn in the sketch. At the same time, when the key is pressed, the keyPressed() function will change the color of the shapes, but only 
+once, until the key is released and pressed again.
+
+There are other key event functions offered by p5.js, such as:
+
+The keyReleased() function, which can be used to trigger an event every time a key release is detected.
+The keyTyped() function, which can be used to determine each time a specific key is pressed. Note that the function cannot detect special keys but can distinguish between lower-case and upper-case letters.
+The keyIsDown() function, which can be used to check if a key is currently being pressed.
+
+* Instructions
+--------------
+Checkpoint 1 Passed
+1.
+Take a look at the recreation of the classic arcade game Pong on the right. It has a problem—there is no interaction!
+
+Open sketch.js. To begin, we will add movement to the paddle. After the draw() function, create an empty keyPressed() function.
+
+Inside the function, create an if statement with the following condition:
+
+keyCode === LEFT_ARROW
+
+In the if statement’s code block decrement the paddlePosX variable by 50.
+
+
+Hint
+This code allows the paddle to be moved to the left with the left arrow key.
+
+Remember that you can decrement a value by writing:
+
+x -= amount;
+
+This takes the current value of the variable and then subtracts amount from it.
+
+Checkpoint 2 Passed
+2.
+Create an else if statement after the if statement with the following condition:
+
+keyCode === RIGHT_ARROW
+
+Inside the else if code block, increment the paddlePosX variable by 50.
+
+Now, run the code and press the right and left arrow keys. The paddle should be able to move and bounce the ball back!
+
+
+Hint
+This code allows the paddle to be moved to the right with the right arrow key.
+
+Remember that you can increment a value by writing:
+
+x += amount;
+
+This takes the current value of the variable and then adds amount to it.
+
+Checkpoint 3 Passed
+3.
+Next, let’s program a reset button for the game.
+
+Create an if statement at the end of the draw() function. In the if statement, check if a key is pressed and (&&) if the key pressed is the spacebar (' '). Use the keyIsPressed variable 
+and the key variable inside the conditional statement.
+
+
+Hint
+The keyIsPressed variable will evaluate to true if a key is pressed and false if no keys are pressed. Use the key variable to check if its value is equal to ' '. Make sure both statements 
+return true by using the AND operator (&&).
+
+Checkpoint 4 Passed
+4.
+Inside the if statement we just created, set the ballPosX variable back to its starting value of 50 and the ballPosY variable to 50. Also, change the started boolean to false.
+
+Now, whenever you press the spacebar the game will reset. When the spacebar is released a new game will begin!
+
+
+Hint
+Make sure to reset the variables inside the if statement we created in the previous step that checks whether a key is pressed and the pressed key is a spacebar.
+
+keyEvents.js
+------------
+let fillValue = 0;
+let scaleValue = 100;
+function setup() {
+  createCanvas(400, 400);
+}
+function draw() {
+  background(220)
+  rectMode(CENTER);
+  noStroke();
+  fill(fillValue);
+  // Code inside the if statement executes repeadetly as long as a key is held down
+  if(keyIsPressed) {
+    scaleValue += 2;
+  }
+
+  if(scaleValue >= width){
+    scaleValue = 100;
+  }
+
+  translate(width / 2, -height / 5);
+  rotate(PI / 4.0);
+  rect(width / 2, width / 2 , scaleValue, scaleValue);
+  fill (fillValue, 33, 100);
+  rect(width / 2, width / 2 , scaleValue / 1.5, scaleValue / 1.5);
+  fill (200,100, fillValue);
+  rect(width / 2, width / 2 , scaleValue / 3, scaleValue / 3);
+}
+
+// Code inside the keyPressed() function only executes once during the key press
+function keyPressed() {
+  if (fillValue === 0) {
+    fillValue = 255;
+  } else {
+    fillValue = 0;
+  }
+}
+
+sketch.js
+---------
+// Variables for the ball
+let ballPosX;
+let ballPosY;
+let diameter;
+let xBallDir;
+let yBallDir;
+let xSpeed;
+let ySpeed;
+
+// Variables for the paddle
+let paddlePosX;
+let paddlePosY;
+let paddleWidth;
+let paddleHeight;
+let started;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  ballPosX = random(25, width - 25);
+  ballPosY = 50;
+  diameter = 50;
+  xBallDir = random(-5,5);
+  yBallDir = random(3,5);
+  xSpeed = random(1,2);
+  ySpeed = random(1,2);
+  paddleWidth = 100;
+  paddleHeight = 25; 
+  started = false
+}
+
+function draw() {
+  background(0);
+  // Ball bounces off walls
+  ballPosX += xSpeed * xBallDir;
+  ballPosY += ySpeed * yBallDir ;
+  if (ballPosX < diameter/2 || 
+      ballPosX > windowWidth - 0.5 * diameter) {
+    xSpeed *= -1.001;
+  }
+  if (ballPosY < diameter/2 || 
+      ballPosY > windowHeight - diameter) {
+     ySpeed *= -1.001;
+  }
+  
+  // Detect collision with paddle
+  if ((ballPosX > paddlePosX &&
+      ballPosX < paddlePosX + paddleWidth) &&
+      (ballPosY + (diameter/2) >= paddlePosY)) {
+    xSpeed *= -1;    
+    ySpeed *= -1;
+  }
+  
+  // Draw ball
+  fill(255);
+  noStroke();
+  ellipse(ballPosX, ballPosY, diameter, diameter);
+  
+  // Update paddle location
+  if (!started) {
+    paddlePosX = windowWidth / 2;
+    paddlePosY = windowHeight - 100;
+    started = true;
+  }
+  
+  // Draw paddle
+  fill(255);
+  noStroke();
+  rect(paddlePosX, paddlePosY, paddleWidth, paddleHeight);
+
+  // TODO: Using the spacebar create a game reset button
+  if (keyIsPressed && key === ' ') {
+    ballPosX = 50;
+    ballPosY = 50;
+    started = false;
+  }
+}
+
+// TODO: Create a keyPressed() function and inside the function, control the paddle using the right and left arrow keys 
+function keyPressed() {
+  if (keyCode === LEFT_ARROW) {
+    paddlePosX -= 50;
+  } else if (keyCode === RIGHT_ARROW) {
+    paddlePosX += 50;
+  }
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
