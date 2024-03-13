@@ -5,3 +5,9 @@ html, body {
   canvas {
     display: block;
   }
+
+body {
+  overflow-x: hidden; /* Eliminate horizontal scrolling */
+  /* OR */
+  overflow-y: hidden; /* Eliminate vertical scrolling */
+}
