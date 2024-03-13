@@ -467,6 +467,254 @@ function draw() {
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+* Using Key Input
+-----------------
+18 min
+The p5.js library has the ability to store data from the keyboard input for a variety of uses. For example, suppose we wanted to know when a certain key was typed and have that key 
+trigger a unique event or have key input be part of a game. Both are possible in p5.js!
+
+But before we get further into the details of key input in p5.js, it is important that we have a basic understanding of ASCII code, the standard representation of characters that allows 
+computers to understand key inputs.
+
+ASCII stands for the American Standard Code for Information Interchange and is a 7-bit character code where each bit represents a unique character. For example, the lowercase ‘a’ in ASCII 
+code has a decimal value of 97, the hexadecimal value of 61 in, and the binary value of 1100001. This numeric representation in decimal value is important to remember. This ASCII table 
+provides a full list of the code.
+
+Now that we have a basic grasp of ASCII, let’s dive into key input!
+
+The built-in key variable stores alphanumeric characters. More specifically, it holds the value of the most recent key pressed. So if the most recently pressed key was f and we were to 
+console.log(key) then it would log f to the console.
+
+This means that the key variable can also be used to determine if a specific key was pressed. In the example below, we are using an if statement to draw some text if the key value pressed 
+is a.
+
+// If the 'a' key is pressed, draw the following text in the canvas
+if (key === 'a'){
+textSize(22);
+text('a key was pressed!', width / 2, height / 2);
+} 
+
+It is important to note that key works best with non-special keys such as ‘a’, ‘t’, and ‘x’.
+
+The other important key input variable we are going to learn about is the keyCode variable. The keyCode variable stores the decimal value of the ASCII code of the most recently pressed 
+key. It can also be used to detect special keys such as BACKSPACE, DELETE, ENTER, RETURN, TAB, and more. A larger list of special keys can be found on the p5.js keyCode reference page.
+
+Similar to the example code above, the code below will draw text to the canvas when the correct keyCode input is detected. In this instance, that input is 32 which is the ASCII code’s 
+decimal value for the space character.
+
+// If the spacebar is pressed, draw the following text in the canvas
+if (keyCode === 32) {
+  textSize(22);
+  text('The spacebar key was pressed!', width / 2, height / 2);
+}
+
+If you are not familiar with the text() and textSize() functions used in the examples above, the text() function is used to draw text onto the canvas. The textSize() function sets the 
+size of the text.
+
+While the key variable can detect both uppercase and lowercase characters, the keyCode variable is unable to differentiate the ASCII values from each other. For example, if we were to 
+print the keyCode value of ‘a’ and ‘A’ both would print out the number 65, even though the decimal value of the ASCII code of ‘a’ is 97.
+
+* Instructions
+--------------
+Checkpoint 1 Passed
+1.
+In sketch.js, there is a maze with text at the top-left corner of the canvas saying “Make it to the end of the maze!”
+
+On line 29, the text() function call is where the static 'Make it to the end of the maze!' text is displayed. Replace the static text with the key variable.
+
+Now run the code and type to see each letter appear at the top-left corner of the canvas.
+
+
+Hint
+Replace the text() function’s first parameter with the key variable on line 29.
+
+Checkpoint 2 Passed
+2.
+Use the ASCII table to assign the correct ASCII decimal values of the A, S, D, and W variables defined in the setup() function.
+
+
+Hint
+The ASCII decimal value for 'A' is 65. This was found on the leftmost column of the table under the “ASCII printable characters” section.
+
+All ASCII decimal values for capital letters fall between 65 to 90 in the table.
+
+Checkpoint 3 Passed
+3.
+Use the keyCode variable to make the existing rectangle move from the start of the maze to the end with the ‘A’, ‘S’, ‘D’, and W’ keys.
+
+To begin, inside of the draw() function, create an if statement where the conditional is checking if the value of the keyCode variable is equal to the variable A. If it returns true, 
+decrement the xVal variable by 5.
+
+
+Hint
+The keyCode variable is used to check that the A variable was properly assigned.
+
+Remember that you can decrement a value by writing:
+
+x -= amount;
+
+This takes the current value of the variable and then subtracts amount from it.
+
+Checkpoint 4 Passed
+4.
+Next, create an else if statement, again checking the keyCode value but this time to see if it equals to D. If it returns true, increment the xVal variable by 5.
+
+
+Hint
+Make sure keyCode is checked against the variable D in the if statement’s condition.
+
+Remember that you can increment a value by writing:
+
+x += amount;
+
+This takes the current value of the variable and then adds amount to it.
+
+Checkpoint 5 Passed
+5.
+Continuing with the format, create a third else if statement and check to see if keyCode is equal to S. If it returns true, increment the yVal variable by 5.
+
+
+Hint
+The keyCode variable should be checked against the variable S in the if statement’s condition.
+
+Remember that you can increment a value by writing:
+
+x += amount;
+
+This takes the current value of the variable and then adds amount to it.
+
+Checkpoint 6 Passed
+6.
+Create one last else if statement and check if keyCode is equal to W. If it returns true, decrement the yVal variable by 5.
+
+Now run the code and use the ‘A’, ‘S’, ‘D’, and W’ keys to move the rectangle from the top of the maze to the bottom. Try not to go over any of the walls!
+
+
+Hint
+The keyCode variable should be checked against the variable W in the if statement’s condition.
+
+Remember that you can decrement a value by writing:
+
+x -= amount;
+
+This takes the current value of the variable and then subtracts amount from it.
+
+sketch.js
+---------
+et A;
+let S;
+let D;
+let W;
+let xVal;
+let yVal;
+
+function setup() {
+  createCanvas(500, 470);
+  frameRate(25);
+  rectMode(CENTER);
+
+  xVal = 450;
+  yVal = 80;
+
+  // TODO: Assign the following variables the proper ASCII decimal values
+  A = 65;
+  D = 68;
+  S = 83;
+  W = 87;
+}
+
+function draw() {
+  background(220);
+
+  textSize(25);
+  fill( 0, 180 ,120);
+  // TODO: Change the first argument of text() function to the key variable
+  text(key, 10, 30);
+  drawMaze();
+
+  // Use keyCode and the newly assigned A, S, D, and W variables to move the rectangle through the maze
+  // TODO: Move the rectangle to the left if 'a' is pressed
+  if(keyCode === A) {
+    xVal -= 5;
+  }
+  // TODO: Move the rectangle to the right if 'd' is pressed
+  else if (keyCode === D) {
+    xVal += 5;
+  }
+  // TODO: Move the rectangle to the down if 's' is pressed
+  else if (keyCode === S) {
+    yVal += 5;
+  }
+  // TODO: Move the rectangle to the up if 'w' is pressed
+  else if (keyCode === W) {
+    yVal -= 5;
+  }
+  
+  if(yVal - 27  > 450 && xVal - 27 < 75) {
+    textSize(80)
+    background(0, 0, 130, 80)
+    text('YOU WON!!', 20, height / 2);
+  }
+  
+  textSize(25);
+  fill(0,0, 200);
+  text('Start', 420, 40);
+  text('End', 26, 450);
+  fill(180, 90, 180);
+  rect(xVal, yVal, 55, 55);
+}
+
+function drawMaze(){
+  line(10, 50, 410, 50);
+  line(10, 50, 10,450);
+  line(490, 50, 490, 450);
+  line(90, 450, 490, 450);
+  line(170, 50, 170, 130);
+  line(10, 290, 90, 290);
+  line(90, 130, 90, 210);
+  line(90, 210, 250, 210);
+  line(250, 130, 250, 290);
+  line(250, 290, 330,290);
+  line(330, 290, 330, 370);
+  line(90, 370, 410, 370);
+  line(170, 290, 170, 370);
+  line(490, 130, 330, 130);
+  line(330, 130, 330, 210);
+  line(330, 210, 410, 210);
+  line(410, 210, 410, 370);
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
