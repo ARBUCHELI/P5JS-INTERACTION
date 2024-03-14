@@ -1,0 +1,499 @@
+# PROJECT
+---------
+
+* Generative Art Creator
+------------------------
+Media and art have been synonymous with each other for decades. For example, take historical artworks such as the generative experiments in motion graphics created by the animator John 
+Whitney or the abstract geometrical works by pioneering media artist Vera Molnar. These historical works created using early computing technology have greatly influenced art and design 
+today.
+
+In this project, you will have the chance to put the p5.js interaction skills you’ve gained from the previous lesson to practice! You will be making a tool to create, control, and combine 
+generative works of art inspired by these early media artists using keyboard interactions.
+
+Tasks
+17/17 complete
+Mark the tasks as complete by checking them off
+
+* Getting Started
+-----------------
+1.
+Begin by taking a look at the existing code!
+
+	. In drawShapes.js, we’ve provided five functions, each of which creates a visually unique and aesthetically appealing generative drawing. We will call these functions when 
+	specific keys are pressed. Take a bit of time to read through each function to get a feel for how they work. Don’t worry if some parts of the code don’t make complete sense just 
+	yet.
+
+	. In sketch.js, some of the starting values for the five drawing functions in drawShapes.js have been declared and initialized. Other than that, this file is pretty sparse and 
+	will be where you will write the code for this project.
+
+Now that we have some bearings for the structure of the program files, it’s time to set up some of the variables we will use in the program.
+
+The first thing to do in sketch.js is to create a canvas of width windowWidth and height windowHeight, and background color of your choice. for the sake of this project, choosing a darker 
+background color, such as 50, will contrast nicely with the generative patterns.
+
+
+Hint
+Remember that the createCanvas() function is used to create a canvas of a desired width and height. The background() function sets the background color of the canvas. You can pass RGB 
+(red, green, and blue) values or a single grayscale integer value.
+
+2.
+Above the setup() function, we can see that global variables have been declared, and two of those have been initialized. These variables are used throughout the program in both sketch.js 
+and drawShapes.js. For example, at the beginning of the parametricLines() function in drawShapes.js, the map() function is used to map the y variable from the range 0 to height to 0 to 
+255 so that y can be used as a color value.
+
+Each time the program runs, we want to have both the x and y variables start at a random value so that the generative drawings are not repetitive.
+
+Back in sketch.js, inside the setup() function set the variable x equal to a random number between 0 and width and the variable y equal to a random number between 0 and height.
+
+
+Hint
+To find a random value between 0 and 300, you would do something like this:
+
+let randomNumber = random(300);
+
+3.
+Like the x and y variables, the speedX and speedY variables are also declared at the top of the program. These variables are used to determine horizontal and vertical speeds of the 
+elements within the parametricLines() and bouncingEllipse() functions.
+
+Again in the setup() function, set each speedX and speedY variables equal to a random value between -3 and 3. The range -3 to 3 was chosen because it gives a good balance of speed when 
+the drawn elements move around the canvas, but you should feel free to try out different values and see how they affect the program.
+
+
+Hint
+To generate a random value between 10 and 25, you would do something like this:
+
+let randomValue = random(10, 25);
+
+* Resetting Variables Within the keyReleased() Function
+-------------------------------------------------------
+4.
+Now that the variables are randomized each time the project starts it’s important to notice that some of the drawing functions will start from the same position each time you press one of 
+their corresponding keys. This is because by initializing the variables in setup(), the values they are set to will initially be random but will stay the same until the progam is reset.
+
+To add randomness to the placement of the visualizations, let’s reassign these variables to new random values at each key release. Begin by creating an empty keyReleased() function after 
+the draw() function.
+
+
+Hint
+The keyReleased() function triggers the code block inside every time a key has been released. Make sure to write this function outside the draw() function.
+
+5.
+Inside the keyReleased() function, set the x variable equal to a random value between 0 and width and the y variable equal to a random value between 0 and height.
+
+
+Hint
+This is exactly what we did a few steps before in task 2, but this time the values will re-randomized each time a key is released.
+
+6.
+Again in the keyReleased() function, set the speedX variable equal to a random value between -3 and 3. Do the same with the speedY variable. Like before, if you would like to try 
+different values for the randomization, feel free to experiment!
+
+
+Hint
+This is exactly what we did a few steps before in task 3. Now, the values of the speedX and speedY variables will be re-randomized every time a key is released.
+
+* Adding Interaction Within the draw() Function
+-----------------------------------------------
+7.
+Now that our variables are set up, it’s time to use the visualization functions defined in the drawShapes.js file when keys are pressed!
+
+To create interactions with the keyboard, we need to define a few rules for mapping the keys so that specific keys trigger each function. We also want to make sure that the entire 
+keyboard can be utilized.
+
+First, some of the drawing functions should only draw one shape per key press, no matter how long a key is pressed, while other functions should be able to loop continuously if a key is 
+held down.
+
+Next, we want multiple keys to trigger the same drawing functions, but we don’t want any accidental crossover in key mappings. For example, the ‘a’ and ‘f’ keys could both trigger the 
+parametricLines() function, but we don’t want either of them also to trigger the star() function.
+
+Now that the ruleset is defined, start by creating an if statement in the draw() function. The if statement should check if keyIsPressed is true and that the key variable is not equal to 
+the spacebar (' '). We don’t want the spacebar to have key mappings assigned to it because it will be used to reset the canvas later on.
+
+
+Hint
+Remember that the keyIsPressed variable returns either true or false. The key variable can be used to check if a specific key has been pressed. To check if both statements are true, use 
+the logical AND (&&) operator. This operator will only return true if both operands are true.
+
+8.
+Knowing that there are five specific drawing functions defined in the drawShapes.js file, we can use the remainder operator (%) to map the keys easily. The remainder operator returns the 
+remainder of the division of the first operand by the second operand. For example, the result of 7 % 5 will be 2 because 5 goes into 7 once and 2 is left over. The % operator is commonly 
+used to create iterating logic that alternates between a fixed number of options because the number of possible remainders is the same as the divisor’s value regardless of the dividend.
+
+Now let’s begin mapping keys. Inside of the first if statement in the draw() function, add another if statement. The nested if statement will check if the remainder of keyCode divided by 
+5 is equal to 0. If it returns true, call the parametricLines() function. This means any key with the keyCode value divisible by 5 (with the remainder of 0) will trigger the 
+parametricLines() function.
+
+Run your code by clicking on the “Save” button. Try pressing the ‘A’ key, which has the ASCII value of 65, to trigger the parametricLines() function!
+
+
+Hint
+Remember that the remainder operator (%) will return the leftover value of operands dividing. For example, if the ‘A’ key is pressed, then keyCode % 5 will be 0 because the ‘A’ key’s 
+ASCII value is 65 and the remainder of 65 divided by 5 is 0.
+
+9.
+Now, create another nested if statement (still inside the if statement that checks if the key is pressed and the pressed key is not a spacebar) to check if the remainder of keyCode 
+divided by 5 is equal to 1. If it returns true, call the bouncingEllipse() function.
+
+The bouncingEllipse() function takes one argument that determines the ellipse’s size drawn to the canvas. Pass a random number between -100 and 50, so the size varies every time the 
+function is called. But this range is just a recommendation—feel free to experiment with the random value range.
+
+Run your code and try pressing the ‘G’ key, which has the ASCII value of 71, to trigger the bouncingEllipse() function!
+
+
+Hint
+This code should look very similar to the previous task’s code, but instead of 0, you are now checking if the remainder is 1.
+
+10.
+For the last nested if statement in the draw() function, check whether the remainder of keyCode divided by 5 is equal to 2. If it returns true, call the flower() function.
+
+Run the code and try pressing various keys on your keyboard to see what the drawings look like on the canvas. Hold some keys down for longer to see the generative drawings animate over 
+time.
+
+
+Hint
+This last if statement should look almost identical to the previous two, except it is now checking if the remainder is equal to 2.
+
+Make sure that this if statement is still inside the if statement that checks if the key is pressed and the pressed key is not the spacebar, which we created in task 7.
+
+* Adding Interaction Within the keyPressed() Function
+-----------------------------------------------------
+11.
+Now that you have the three looping animated drawing functions mapped to keys, it’s time to map the functions that aren’t going to loop.
+
+Create a keyPressed() function after and outside the draw() function. Remember that the code block inside the keyPressed() function runs once per key press, so it’s perfect to use for 
+binding drawing functions that we don’t want to loop.
+
+
+Hint
+Make sure that the keyPressed() function is created outside the draw() function. Leave the function empty for now.
+
+12.
+Inside of the keyPressed() function, create an if statement which checks if the key value is not equal to the spacebar. Again, we want to make sure that the spacebar is the designated 
+reset key, so no other functions should be triggered by it.
+
+
+Hint
+Remember that when the spacebar key is pressed, the value of the key variable will be ' '.
+
+13.
+Inside the if statement we just created, create another if statement. Its condition should be checking whether the remainder of keyCode divided by 5 is equal to 3. If that returns true, 
+the roundedRect() function should be called.
+
+Run your code and try pressing the ‘N’ key, which has the ASCII value of 78, to see the roundedRect() function in action!
+
+
+Hint
+Again, this if statement should look almost identical to those created in the draw() function except that it should check if the remainder is 3.
+
+Make sure that this if statement is inside the one that checks if the key pressed is not the spacebar, which we created in task 12.
+
+14.
+Still inside the if statement that checks if the key pressed is not the spacebar, create the next if statement that checks whether the remainder of keyCode divided by 5 is equal to 4. If 
+that returns true then call the star() function.
+
+The star() function takes three arguments. The first two are for the shape’s radiuses, and the third is for the number of points the star contains. Try passing a random number between 30 
+and 50 for the first two arguments and a random number between 4 and 7 for the last argument.
+
+Again, run the program and begin typing on your keyboard to see the generative artwork come alive! Make sure that all five of the drawing functions are triggered properly.
+
+There are still a few pieces of functionality that need to be added, but we’re getting closer!
+
+
+Hint
+The random() function can be used as an argument inside of another function. In the made-up function below, you can see that the random() function is used as both the first and second 
+arguments of the myCustomFunction() function.
+
+myCustomFunction(random(30, 50), random(-10, 20));
+
+15.
+You should be able to save all the awesome artworks you create with this tool! In this step, you’re going to add a function to save the canvas as an image file. Still inside the if 
+statement that checks if the key pressed is not the spacebar in the keyPressed() function, create a final nested if statement, which checks if keyCode is equal to the ASCII code of the 
+return key.
+
+Inside of the if statement’s code block, use the saveCanvas() function to save the current state of the canvas as an image file. The saveCanvas() function needs two arguments. The first 
+argument is the filename of the image that will be saved as and the second argument is the image’s file extension.
+
+Feel free to save the image with whatever name you’d like, but you can save it with a string concatenated with the frameCount variable (for example, 'canvas-' + frameCount) if you want a 
+unique and auto-generated filename. Use either 'jpg' or 'png' as the file extension.
+
+
+Hint
+The ASCII code of the return key is 13. Check out this interactive site to discover any key’s ASCII code.
+
+Your saveCanvas() function should look something like this:
+
+saveCanvas('canvas-' + frameCount, 'jpg');
+
+16.
+Add an else statement to the outer-most if statement in the keyPressed() function. Inside, use the clear() function to reset the canvas and use the background() function to reset the 
+background color to the color you chose in the setup() function after the canvas is cleared.
+
+Now run the program, create some art, save it, and then clear it to create some more!
+
+
+Hint
+Use the clear() and background() functions to return the canvas back to the initial program state.
+
+Make sure to call these functions inside the else statement for the outer-most if statement of the keyPressed() function.
+
+17.
+Optionally, if you want to challenge yourself:
+
+	. Look more thoroughly through the functions defined in drawShapes.js. Try manipulating them to create new variations of the existing drawings.
+
+	. Add your own custom drawing function to drawShapes.js. Then call your function in any of the if statements instead of the existing drawing functions.
+
+	. Using the keyTyped() function, try modifying the alphaVal variable so that you can dynamically change the amount of opacity while shapes are drawn.
+
+	. Take a look at how each of the color variables (redVal, greenVal, blueVal) are mapped in each of the drawing functions. Think about possible ways to dynamically change them in a 
+	similar manner to the alphaVal variable above.
+
+sketch.js
+---------
+let x, y;
+let speedX, speedY;
+let redVal, greenVal, blueVal;
+let alphaVal = 70;
+let angle = 0;
+
+function setup() {
+  // TODO: Create canvas and set initial background color
+  createCanvas(windowWidth, windowHeight);
+  background(50);
+  // TODO: Randomize variables used to draw shapes
+  x = random(0, width);
+  y = random(0, height);
+  speedX = random(-3, 3);
+  speedY = random(-3, 3);
+}
+
+function draw() {
+  // TODO: Map key inputs to various shape drawing functions
+  if (keyIsPressed && key !== ' ') {
+    if (keyCode % 5 === 0) {
+      parametricLines();
+    }
+    if (keyCode % 5 === 1) {
+      bouncingEllipse(random(-100, 50))
+    }
+    if (keyCode % 5 === 2) {
+      flower();
+    }
+  }
+
+}
+
+// TODO: Add keyPressed() function to ensure that the drawing functions don't repeat on single key presses
+// TODO: Reset canvas on spacebar press
+// TODO: Save image on Return/Enter press
+function keyPressed() {
+  if (key !== ' ') {
+    if (keyCode % 5 === 3) {
+      roundedRect();
+    }
+    if (keyCode % 5 === 4) {
+      star(random(30, 50), random(30, 50), random(4, 7));
+    }
+    if (keyCode === 13) {
+      saveCanvas('canvas-' + frameCount, 'jpg');
+    } else {
+      clear();
+      background(50);
+    }
+  }
+}
+
+
+// TODO: Add keyReleased() function to randomize values again on key release
+function keyReleased() {
+  x = random(0, width);
+  y = random(0, height);
+  speedX = random(-3, 3);
+  speedY = random(-3, 3);
+}
+
+drawShapes.js
+-------------
+/*
+Function drawing animated spiralling lines which trail each other across the canvas.
+*/
+function parametricLines() {
+  push();
+  // Map x and y positions to a color range
+  redVal = map(y, 0, height, 0, 255);
+  greenVal = map(x, 0, width, 0, 255);
+  blueVal = 200;
+
+  translate(x, y);
+  let rotation = map(x, 0, height, 0, TWO_PI);
+  rotate(rotation);
+
+  stroke(redVal, greenVal, blueVal, alphaVal);
+  line(-200, 0, 200, x);
+
+  x = x + speedX;
+  y = y + speedY;
+
+  // Make sure that the lines don't go beyond the canvas width
+  if (x > width || x < 0) {
+    speedX = -speedX;
+  }
+  // Make sure that the lines don't go beyond the canvas height
+  if (y > height || y < 0) {
+    speedY = -speedY;
+  }
+  pop();
+}
+
+/*
+Function drawing a trailing ellipse which moves across the screen at varying sizes
+*/
+function bouncingEllipse(size) {
+  // Set the size of the ellipse based on the y value
+  if (y > 0) {
+    size = map(y, 0, height, 0, 100);
+  } else {
+    size = map(speedX, 0, height, 0, 100);
+  }
+  // Map x and y positions to a color range 
+  redVal = map(y, 0, height, 0, 255);
+  greenVal = map(x, 0, width, 0, 255);
+  blueVal = map(x + y, 0, width + height, 0, 255);
+
+  stroke(redVal, greenVal, blueVal, alphaVal);
+  fill(greenVal, 255, blueVal, alphaVal);
+  x = x + speedX;
+  y = y + speedY;
+
+  // Make sure that the ellipse doesn't go beyond the canvas width in either direction
+  if (x > width || x < 0) {
+    speedX = -speedX;
+  }
+  // Make sure that the ellipse doesn't go beyond the canvas height in either direction
+  if (y > height || y < 0) {
+    speedY = -speedY;
+  }
+  ellipse(x, y, size, size);
+}
+
+/*
+Function drawing a rectangle with rounded corners and various sizes at random positions across the canvas.
+*/
+function roundedRect() {
+  push();
+  rectMode(CENTER);
+  // Randomize the shape position 
+  let shapeX = random(width);
+  let shapeY = random(height);
+  // Randomize the shape size
+  let size = random(100, 300);
+  
+  // Map red fill value to the shape's size
+  redVal = map(size, 100, 300, 0, 255);
+  noStroke();
+  fill(120, redVal, 160, alphaVal * 0.5);
+  rect(shapeX, shapeY, size * 0.1, size, size * 0.03, size * 0.03, size * 0.03, size * 0.03);
+  pop();
+}
+
+/*
+Function which creates stars at random positions across the canvas. Each star has a randomized number of points and random size.
+*/
+function star(radius1, radius2, npoints) {
+  push();
+  // Randomize star position
+  let posX = random(width);
+  let posY = random(height);
+  
+  // Displace by x and y position
+  translate(posX, posY);
+  
+  //rotate the star based on frame count 
+  rotate(frameCount / 200);
+  noStroke();
+  
+  blueVal = map(posY, 0, height, 0, 255);
+  fill(0, 0, blueVal, alphaVal / 2);
+  
+  let angle = TWO_PI / int(npoints);
+  let halfAngle = angle / 2.0;
+  
+  // Begin drawing custom shape 
+  beginShape();
+  for (let a = 0; a < TWO_PI; a += angle) {
+    let sx = cos(a) * radius2;
+    let sy = sin(a) * radius2;
+    vertex(sx, sy);
+    sx = cos(a + halfAngle) * radius1;
+    sy = sin(a + halfAngle) * radius1;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
+  pop();
+}
+
+/*
+Function which draws flower animation at random positions across the canvas.
+*/
+function flower() {
+  push();
+  // Displace based on random x and y values
+  translate(x, y);
+  
+  // Rotate by angle value at bottom of function
+  rotate(radians(angle));
+  
+  // Randomize x and y postion
+  let posX = random(25, 50);
+  let posY = random(25, 50);
+
+  // Set the red value based on the noise mapping 
+  redVal = noise(frameCount * 0.01) * 50 + 150;
+  greenVal = map(x + y, 0, width + height, 0, 255);
+  
+  noStroke();
+  fill(redVal, greenVal, 100, alphaVal);
+  ellipse(posX, posY, 20, 20);
+  
+  stroke(redVal, greenVal, 100, alphaVal * 1.5);
+  line(0, 0, posX, posY);
+
+  angle += 12;
+  pop();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
